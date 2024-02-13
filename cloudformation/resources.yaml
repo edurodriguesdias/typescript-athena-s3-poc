@@ -4,17 +4,4 @@ Resources:
     Type: 'AWS::S3::Bucket'
     Properties:
       BucketName: poc-athena-dataset-bucket
-  AthenaWorkGroup:
-    Type: AWS::Athena::WorkGroup
-    Properties:
-      Name: 'poc-athena-s3'
-      RecursiveDeleteOption: false
-      State: ENABLED
-      WorkGroupConfiguration: 
-        BytesScannedCutoffPerQuery: 200000000
-        EnforceWorkGroupConfiguration: false
-        PublishCloudWatchMetricsEnabled: false
-        RequesterPaysEnabled: true
-        ResultConfiguration:
-          OutputLocation: !Ref S3BucketDataSet
   
