@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  S3BucketDataSet:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: poc-athena-dataset-bucket
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteAfter30DaysRule
+            Prefix: delete-rule
+            Status: Enabled
+            ExpirationInDays: 30
+Outputs:
+  BucketName:
+    Value: !Ref S3BucketDataSet
+    Description: Name of the sample Amazon S3 bucket with a lifecycle configuration.

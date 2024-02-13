@@ -13,8 +13,6 @@ coverage
 build/
 
 # Envs
-.env.example
-.env.ci
 .env
 
 # VS Code
