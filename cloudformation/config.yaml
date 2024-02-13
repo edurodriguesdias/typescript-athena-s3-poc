@@ -1,0 +1,5 @@
+template-file-path: ./cloudformation/resources.yaml
+parameteres:
+tags:
+  environment: 'dev'
+  application: 's3-athena-poc'
