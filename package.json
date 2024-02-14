@@ -36,5 +36,10 @@
   },
   "keywords": [],
   "author": "Eduardo Dias",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-athena": "^3.513.0",
+    "@aws-sdk/credential-providers": "^3.513.0",
+    "dotenv": "^16.4.4"
+  }
 }
