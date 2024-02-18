@@ -5,8 +5,4 @@ export interface AthenaQueryClientConfigInterface {
     Database: string;
     Catalog: string;
     WorkGroup?: string;
-    // credentials: {
-    //     accessKeyId: string,
-    //     secretAccessKey: string
-    // }
 }
