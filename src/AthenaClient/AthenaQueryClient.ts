@@ -1,12 +1,14 @@
 import { 
     AthenaClient, 
     GetQueryExecutionCommand, 
+    GetQueryResultsCommand, 
+    QueryExecutionState, 
     StartQueryExecutionCommand, 
     
 } from "@aws-sdk/client-athena"
 import { AthenaQueryClientConfigInterface } from "./AthenaQueryClientConfigInterface.js";
 
-export class AthenaQueryClient {
+export default class AthenaQueryClient {
     public database: string
     private client: AthenaClient
     private catalog: string
@@ -40,6 +42,19 @@ export class AthenaQueryClient {
         const query = await this.client.send(command)
         const status = query.QueryExecution.Status.State
 
-        console.log(status)
+        if (status == QueryExecutionState.QUEUED || status == QueryExecutionState.RUNNING) {
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            return await this.getQueryExecutionCommand(QueryExecutionId);
+        } else if (status == QueryExecutionState.SUCCEEDED) {
+            return await this.getQueryExecutionResults(QueryExecutionId)
+        }
+    }
+
+    private async getQueryExecutionResults(QueryExecutionId: string) {
+        const queryResultCommand = new GetQueryResultsCommand({
+            QueryExecutionId
+        });
+
+        return await this.client.send(queryResultCommand);
     }
 }
