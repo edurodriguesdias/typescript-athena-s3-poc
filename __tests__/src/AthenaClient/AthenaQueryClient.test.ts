@@ -7,7 +7,7 @@ import {
     GetQueryResultsCommand
 } from "@aws-sdk/client-athena";
 
-const mockedQueryId = '3db3a7d9-2b6f-49f0-b66f-6c91956340a6'
+const mockedQueryId = "3db3a7d9-2b6f-49f0-b66f-6c91956340a6"
 
 jest.mock("@aws-sdk/client-athena", () => {
     return {
