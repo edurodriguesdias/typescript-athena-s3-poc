@@ -1,5 +1,5 @@
 import AthenaQueryClient from "./AthenaClient/AthenaQueryClient.js";
-import { config } from "./config.js";
+import config  from "./config.js";
 import { fromEnv } from "@aws-sdk/credential-providers";
 
 let table = config.vars.table
