@@ -2,16 +2,19 @@ import AthenaQueryClient from "../../../src/AthenaClient/AthenaQueryClient";
 import { AthenaQueryClientConfigInterface } from "../../../src/AthenaClient/AthenaQueryClientConfigInterface";
 import { 
     AthenaClient, 
-    GetQueryExecutionCommand,   
-    StartQueryExecutionCommand 
+    GetQueryExecutionCommand,
+    StartQueryExecutionCommand,
+    GetQueryResultsCommand
 } from "@aws-sdk/client-athena";
+
+const mockedQueryId = '3db3a7d9-2b6f-49f0-b66f-6c91956340a6'
 
 jest.mock("@aws-sdk/client-athena", () => {
     return {
       AthenaClient: jest.fn().mockImplementation(() => ({
         send: jest.fn().mockImplementation((command) => {
             if (command instanceof StartQueryExecutionCommand) {
-                return { QueryExecutionId: "3db3a7d9-2b6f-49f0-b66f-6c91956340a6" }
+                return { QueryExecutionId: mockedQueryId }
             }
 
             if (command instanceof GetQueryExecutionCommand) {
@@ -27,15 +30,10 @@ jest.mock("@aws-sdk/client-athena", () => {
             return {}
           })
       })),
-      StartQueryExecutionCommand: jest.fn().mockImplementation(() => ({
-        
-      })),
-      GetQueryExecutionCommand: jest.fn().mockImplementation(() => {
-        
-      }),
-      QueryExecutionState: jest.fn().mockImplementation(() => {
-        
-      })
+      StartQueryExecutionCommand: jest.fn(),
+      GetQueryExecutionCommand: jest.fn(),
+      QueryExecutionState: jest.fn(),
+      GetQueryResultsCommand: jest.fn()
     };
 });
 
@@ -76,5 +74,6 @@ describe("testing athena query instance", () => {
 
         expect(StartQueryExecutionCommand).toHaveBeenCalledWith(queryInput)
         expect(AthenaClient).toHaveBeenCalledWith(MockedAthenaQueryConfig.ClientConfig)
+        expect(GetQueryResultsCommand).toHaveBeenCalledWith({"QueryExecutionId": mockedQueryId})
     })
 });

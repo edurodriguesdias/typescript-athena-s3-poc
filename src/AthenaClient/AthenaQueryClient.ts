@@ -44,10 +44,9 @@ export default class AthenaQueryClient {
 
         if (status == QueryExecutionState.QUEUED || status == QueryExecutionState.RUNNING) {
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            return await this.getQueryExecutionCommand(QueryExecutionId);
-        } else if (status == QueryExecutionState.SUCCEEDED) {
-            return await this.getQueryExecutionResults(QueryExecutionId)
         }
+
+        return await this.getQueryExecutionResults(QueryExecutionId)
     }
 
     private async getQueryExecutionResults(QueryExecutionId: string) {
@@ -55,6 +54,6 @@ export default class AthenaQueryClient {
             QueryExecutionId
         });
 
-        return await this.client.send(queryResultCommand);
+        return await this.client.send(queryResultCommand)
     }
 }
