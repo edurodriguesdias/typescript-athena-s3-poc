@@ -10,9 +10,9 @@ import { AthenaQueryClientConfigInterface } from "./AthenaQueryClientConfigInter
 
 export default class AthenaQueryClient {
     public database: string
-    private client: AthenaClient
-    private catalog: string
-    private workgroup: string
+    public client: AthenaClient
+    public catalog: string
+    public workgroup: string
 
     constructor(config: AthenaQueryClientConfigInterface) {
         this.client = new AthenaClient(config.ClientConfig)
@@ -36,7 +36,7 @@ export default class AthenaQueryClient {
         return await this.getQueryExecutionCommand(QueryExecutionId)
     }
 
-    private async getQueryExecutionCommand(QueryExecutionId: string) {
+    private async getQueryExecutionCommand(QueryExecutionId: string): Promise<any> {
         const command = new GetQueryExecutionCommand({ QueryExecutionId })
 
         const query = await this.client.send(command)
