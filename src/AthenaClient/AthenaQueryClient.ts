@@ -10,9 +10,9 @@ import { AthenaQueryClientConfigInterface } from "./AthenaQueryClientConfigInter
 
 export default class AthenaQueryClient {
     public database: string
-    private client: AthenaClient
-    private catalog: string
-    private workgroup: string
+    public client: AthenaClient
+    public catalog: string
+    public workgroup: string
 
     constructor(config: AthenaQueryClientConfigInterface) {
         this.client = new AthenaClient(config.ClientConfig)
@@ -36,7 +36,7 @@ export default class AthenaQueryClient {
         return await this.getQueryExecutionCommand(QueryExecutionId)
     }
 
-    private async getQueryExecutionCommand(QueryExecutionId: string) {
+    private async getQueryExecutionCommand(QueryExecutionId: string): Promise<any> {
         const command = new GetQueryExecutionCommand({ QueryExecutionId })
 
         const query = await this.client.send(command)
@@ -44,10 +44,9 @@ export default class AthenaQueryClient {
 
         if (status == QueryExecutionState.QUEUED || status == QueryExecutionState.RUNNING) {
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            return await this.getQueryExecutionCommand(QueryExecutionId);
-        } else if (status == QueryExecutionState.SUCCEEDED) {
-            return await this.getQueryExecutionResults(QueryExecutionId)
         }
+
+        return await this.getQueryExecutionResults(QueryExecutionId)
     }
 
     private async getQueryExecutionResults(QueryExecutionId: string) {
@@ -55,6 +54,6 @@ export default class AthenaQueryClient {
             QueryExecutionId
         });
 
-        return await this.client.send(queryResultCommand);
+        return await this.client.send(queryResultCommand)
     }
 }
